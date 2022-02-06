@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { shallow } from 'enzyme';
 import CitySearch from "../CitySearch";
 import { mockData } from '../mock-data';
@@ -15,11 +15,11 @@ describe('<CitySearch /> component', () => {
     expect(CitySearchWrapper.find('.city')).toHaveLength(1);
   });
 
-  test('renders a list of suggestions', () => {
+  test('render a list of suggestions', () => {
     expect(CitySearchWrapper.find('.suggestions')).toHaveLength(1);
   });
 
-  test('renders text input correclty', () => {
+  test('render text input correclty', () => {
     const query = CitySearchWrapper.state('query');
     expect(CitySearchWrapper.find('.city').prop('value')).toBe(query);
   });
@@ -65,7 +65,7 @@ describe('<CitySearch /> component', () => {
     expect(CitySearchWrapper.state('suggestions')).toEqual(filteredLocations);
   });
 
-  test('selecting a suggestions should change query state', () => {
+  test('selecting a suggestion should change query state', () => {
     CitySearchWrapper.setState({ query: 'Berlin' });
     const suggestions = CitySearchWrapper.state('suggestions');
 
