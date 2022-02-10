@@ -5,7 +5,7 @@ import NumberOfEvents from './NumberOfEvents';
 import { extractLocations, getEvents } from './api';
 
 import './App.css';
-import '.nprogress.css';
+import './nprogress.css';
 
 class App extends Component {
   state = {
