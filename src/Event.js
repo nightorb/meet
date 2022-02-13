@@ -13,19 +13,28 @@ class Event extends Component {
 
   render() {
     const { event } = this.props;
+    const { collapsed } = this.state;
 
     return (
       <div className="event">
-        <h3 className="summary">{event.summary}</h3>
-        <p className="dateTime">{event.dateTime}</p>
-        <p className="timeZone">{event.timeZone}</p>
-        <p className="location">{event.location}</p>
-        <button className="show-details" onClick={this.handleButtonClick}>show details</button>
+        <h3 className="title">{event.summary}</h3>
+        <div className="event-body">
+          <p className="date">
+            {/* {event.start.dateTime} ({event.start.timeZone}) */}
+          </p>
+          <p className="location">{event.location}</p>
 
-        <div className="event-details">
-          <a href={event.htmlLink} className="htmlLink">See details on Google Calendar</a>
-          <p className="description">{event.description}</p>
-          <button className="hide-details" onClick={this.handleButtonClick}>hide details</button>
+          { !collapsed && (
+            <div className="event-details">
+              <a href={event.htmlLink} target="_blank" rel="noreferrer" className="link">
+                See details on Google Calendar
+              </a>
+              <p className="description">{event.description}</p>
+            </div>
+          )}
+          <button className="toggle-details" onClick={this.handleButtonClick}>
+            { collapsed ? "Show Details" : "Hide Details" }
+          </button>
         </div>
       </div>
     );
