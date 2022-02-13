@@ -5,6 +5,7 @@ import { mockData } from '../mock-data';
 
 describe('<Event /> component' ,() => {
   let EventWrapper;
+
   beforeAll(() => {
     EventWrapper = shallow(<Event event={mockData} />);
   });
@@ -13,24 +14,12 @@ describe('<Event /> component' ,() => {
     expect(EventWrapper.find('.event')).toHaveLength(1);
   });
 
-  test('render event summary', () => {
-    expect(EventWrapper.find('.summary')).toHaveLength(1);
-  });
-
-  test('render event date', () => {
-    expect(EventWrapper.find('.dateTime')).toHaveLength(1);
-  });
-
-  test('render event time zone', () => {
-    expect(EventWrapper.find('.timeZone')).toHaveLength(1);
-  });
-
-  test('render event location', () => {
+  test('render collapsed event view', () => {
+    expect(EventWrapper.find('.title')).toHaveLength(1);
+    expect(EventWrapper.find('.date')).toHaveLength(1);
     expect(EventWrapper.find('.location')).toHaveLength(1);
-  });
-
-  test('render show more button', () => {
-    expect(EventWrapper.find('.show-details')).toHaveLength(1);
+    expect(EventWrapper.find('.toggle-details')).toHaveLength(1);
+    expect(EventWrapper.find('.toggle-details').text()).toBe('Show Details');
   });
 
   test('event is collapsed by default', () => {
@@ -41,19 +30,13 @@ describe('<Event /> component' ,() => {
     EventWrapper.setState({
       collapsed: true
     });
-    EventWrapper.find('.show-details').simulate('click');
+    EventWrapper.find('.toggle-details').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(false);
   });
 
-  test('render event details', () => {
+  test('render additional event details when expanded', () => {
     expect(EventWrapper.find('.event-details')).toHaveLength(1);
-  });
-
-  test('render google calendar link', () => {
-    expect(EventWrapper.find('.htmlLink')).toHaveLength(1);
-  });
-
-  test('render event description', () => {
+    expect(EventWrapper.find('.link')).toHaveLength(1);
     expect(EventWrapper.find('.description')).toHaveLength(1);
   });
 
@@ -61,7 +44,7 @@ describe('<Event /> component' ,() => {
     EventWrapper.setState({
       collapsed: false
     });
-    EventWrapper.find('.hide-details').simulate('click');
+    EventWrapper.find('.toggle-details').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(true);
   });
 });
