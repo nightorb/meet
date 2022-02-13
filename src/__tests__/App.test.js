@@ -1,11 +1,13 @@
 import React from "react";
 import { shallow, mount } from 'enzyme';
+
+import { mockData } from '../mock-data';
+import { extractLocations, getEvents } from '../api';
+
 import App from '../App';
 import EventList from '../EventList';
 import CitySearch from '../CitySearch';
 import NumberOfEvents from "../NumberOfEvents";
-import { mockData } from '../mock-data';
-import { extractLocations, getEvents } from '../api';
 
 describe('<App /> component', () => {
   let AppWrapper;
@@ -15,7 +17,6 @@ describe('<App /> component', () => {
   });
 
   test('render list of events', () => {
-    // finds EventList components inside AppWrapper to ensure that there exists only 1 list
     expect(AppWrapper.find(EventList)).toHaveLength(1);
   });
 
@@ -30,32 +31,39 @@ describe('<App /> component', () => {
 
 // create new scope to separate unit test from integration test
 describe('<App /> integration', () => {
+  let AppWrapper;
+
+  beforeEach(() => {
+    AppWrapper = mount(<App />);
+  });
+
+  afterEach(() => {
+    // clean up DOM after each test so it won't affect other tests
+    AppWrapper.unmount();
+  });
+
   test('App passes "events" state as a prop to EventList', () => {
-    const AppWrapper = mount(<App />);
+    AppWrapper.update();
     const AppEventsState = AppWrapper.state('events');
 
     // check whether state of events isn't undefined (important for next step)
     expect(AppEventsState).not.toEqual(undefined);
+
     // compare state of App's "events" with EventList's "events" prop to ensure it's been passed correctly
     // checking for undefined necessary because this comparison would still pass if both are undefined
     // meaning both could not exist and test would still pass!
     expect(AppWrapper.find(EventList).props().events).toEqual(AppEventsState);
-
-    // clean up DOM after test so it won't affect other tests
-    AppWrapper.unmount();
   });
 
   test('App passes "locations" state as a prop to CitySearch', () => {
-    const AppWrapper = mount(<App />);
+    AppWrapper.update();
     const AppLocationsState = AppWrapper.state('locations');
 
     expect(AppLocationsState).not.toEqual(undefined);
     expect(AppWrapper.find(CitySearch).props().locations).toEqual(AppLocationsState);
-    AppWrapper.unmount();
   });
 
   test('get list of events matching the city selected by the user', async () => {
-    const AppWrapper = mount(<App />);
     const CitySearchWrapper = AppWrapper.find(CitySearch);
 
     // locations extracted from events themselves: doesn't include "see all cities" option
@@ -86,11 +94,9 @@ describe('<App /> integration', () => {
 
     // compare whether state of events takes same array as result from previous event filtering
     expect(AppWrapper.state('events')).toEqual(eventsToShow);
-    AppWrapper.unmount();
   });
 
   test('get list of all events when user selects "see all cities"', async () => {
-    const AppWrapper = mount(<App />);
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
 
     // simulate click on last item which is always "see all cities"
@@ -98,6 +104,23 @@ describe('<App /> integration', () => {
     const allEvents = await getEvents();
 
     expect(AppWrapper.state('events')).toEqual(allEvents);
-    AppWrapper.unmount();
+  });
+
+  test('App passes "numberOfEvents" state as a prop to NumberOfEvents', () => {
+    const AppNumberOfEventsState = AppWrapper.state('numberOfEvents');
+
+    expect(AppNumberOfEventsState).not.toEqual(undefined);
+    expect(AppWrapper.find(NumberOfEvents).props().numberOfEvents).toEqual(32);
+  });
+
+  test('render EventList with specified number of events', async () => {
+    const allEvents = await getEvents();
+    AppWrapper.setState({
+      events: allEvents,
+      numberOfEvents: 1
+    });
+
+    const EventListWrapper = AppWrapper.find(EventList);
+    expect(EventListWrapper.props().events.length).toBeLessThanOrEqual(AppWrapper.state('numberOfEvents'));
   });
 });
