@@ -32,12 +32,14 @@ describe('<Event /> component' ,() => {
     });
     EventWrapper.find('.toggle-details').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(false);
+    expect(EventWrapper.find('.toggle-details').text()).toBe('Hide Details');
   });
 
   test('render additional event details when expanded', () => {
     expect(EventWrapper.find('.event-details')).toHaveLength(1);
     expect(EventWrapper.find('.link')).toHaveLength(1);
     expect(EventWrapper.find('.description')).toHaveLength(1);
+    expect(EventWrapper.find('.toggle-details').text()).toBe('Hide Details');
   });
 
   test('hide event details when button is clicked', () => {
@@ -46,5 +48,6 @@ describe('<Event /> component' ,() => {
     });
     EventWrapper.find('.toggle-details').simulate('click');
     expect(EventWrapper.state('collapsed')).toBe(true);
+    expect(EventWrapper.find('.toggle-details').text()).toBe('Show Details');
   });
 });
