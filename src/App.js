@@ -68,8 +68,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
-        <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateNumberOfEvents={this.updateNumberOfEvents} />
+        <h1>Welcome to Meet!</h1>
+        <div className="search-wrapper">
+          <h2>Search for developer events in your city.</h2>
+          <NumberOfEvents numberOfEvents={this.state.numberOfEvents} updateNumberOfEvents={this.updateNumberOfEvents} />
+          <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} />
+        </div>
         <EventList events={this.state.events.slice(0, this.state.numberOfEvents)} />
         <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
       </div>
