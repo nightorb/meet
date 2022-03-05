@@ -44,22 +44,24 @@ class CitySearch extends Component {
   }
 
   render() {
+    const { infoText, query, showSuggestions, suggestions } = this.state;
+
     return (
       <div className="CitySearch">
-        <div id="info-alert-wrapper" style={this.state.infoText ? {} : { display: 'none' }}>
-          <InfoAlert text={this.state.infoText} />
+        <div id="info-alert-wrapper" style={infoText ? {} : { display: 'none' }}>
+          <InfoAlert text={infoText} />
         </div>
         <label className="input-label">in</label>
         <input
           type="text"
           className="city"
           placeholder="select a city"
-          value={this.state.query}
+          value={query}
           onChange={this.handleInputChanged}
           onFocus={() => this.setState({ showSuggestions: true })}
         />
-        <ul className="suggestions" style={this.state.showSuggestions ? {} : { display: 'none' }}>
-          { this.state.suggestions.map((suggestion) => (
+        <ul className="suggestions" style={showSuggestions ? {} : { display: 'none' }}>
+          { suggestions.map((suggestion) => (
             <li
               key={suggestion}
               onClick={() => this.handleItemClicked(suggestion)}
