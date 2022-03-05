@@ -21,7 +21,7 @@ class CitySearch extends Component {
     if (suggestions.length === 0) {
       this.setState({
         query: value,
-        infoText: 'We can not find the city you are looking for. Please try another city.'
+        infoText: 'We can not find the city you are looking for.'
       });
     } else {
       return this.setState({
@@ -46,10 +46,14 @@ class CitySearch extends Component {
   render() {
     return (
       <div className="CitySearch">
-        <InfoAlert text={this.state.infoText} />
+        <div id="info-alert-wrapper" style={this.state.infoText ? {} : { display: 'none' }}>
+          <InfoAlert text={this.state.infoText} />
+        </div>
+        <label className="input-label">in</label>
         <input
           type="text"
           className="city"
+          placeholder="select a city"
           value={this.state.query}
           onChange={this.handleInputChanged}
           onFocus={() => this.setState({ showSuggestions: true })}
