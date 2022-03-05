@@ -25,17 +25,19 @@ class NumberOfEvents extends Component {
   }
 
   render() {
+    const { errorText, numberOfEvents } = this.state;
+
     return (
       <div className="NumberOfEvents">
-        <div id="error-alert-wrapper" style={this.state.infoText ? {} : { display: 'none' }}>
-          <ErrorAlert text={this.state.errorText} />
+        <div id="error-alert-wrapper" style={errorText ? {} : { display: 'none' }}>
+          <ErrorAlert text={errorText} />
         </div>
         <label className="input-label">show me</label>
         <input
           type="number"
           className="number-of-events"
           placeholder="enter a number"
-          value={this.state.numberOfEvents}
+          value={numberOfEvents}
           onChange={this.handleInputChanged}
         />
         <label className="input-label">event(s)</label>
