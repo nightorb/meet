@@ -39,7 +39,7 @@ h1 {
 
 .search-wrapper {
   width: 50vw;
-  min-width: 400px;
+  min-width: 350px;
   margin: 0 auto;
   padding: 0 20px 20px 20px;
 }
@@ -179,7 +179,7 @@ a:focus {
 
 .event {
   width: 50vw;
-  min-width: 400px;
+  min-width: 350px;
   margin: 1rem auto;
   padding: 10px 30px 30px;
   text-align: left;
@@ -211,6 +211,13 @@ a:focus {
   overflow-x: hidden;
 }
 
+.data-vis {
+  margin: 3rem 5vw;
+  background-color: var(--clr-neutral-lt);
+  border-radius: 4px;
+  border: 0.1rem solid var(--clr-neutral-drk);
+  box-shadow: 5px 5px 2px var(--clr-neutral-drk);
+}
 .data-vis-wrapper {
   display: flex;
   align-items: center;
@@ -224,9 +231,29 @@ a:focus {
   overflow: visible;
 }
 
+@media only screen and (max-width: 450px) {
+  .data-vis {
+    margin: 3rem 0.35rem;
+  }
+  #pie-container {
+    margin-right: 10vw;
+  }
+  #scatter-container {
+    margin-left: -10vw;
+  }
+}
 
+@media only screen and (min-width: 700px) and (max-width: 999px) {
+  .data-vis {
+    width: 75vw;
+    margin: 3rem auto;
+  }
+}
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1000px) {
+  .data-vis {
+    margin: 3rem 5vw;
+  }
   .data-vis-wrapper {
     flex-direction: row;
   }
@@ -234,6 +261,23 @@ a:focus {
     flex-basis: 50%;
     max-width: 50%;
     min-width: auto;
-    margin: 0 auto;
+  }
+  #pie-container {
+    padding-left: 2vw;
+  }
+  #scatter-container {
+    padding-right: 2vw;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .data-vis {
+    margin: 3rem 15vw;
+  }
+  #pie-container {
+   padding-left: 5vw; 
+  }
+  #scatter-container {
+    padding-right: 5vw;
   }
 }
