@@ -3,39 +3,6 @@ import axios from "axios";
 import NProgress from "nprogress";
 import { mockData } from "./mock-data";
 
-export const getAccessToken = async () => {
-  // first check whether user already has access token or not by looking in local storage
-  const accessToken = localStorage.getItem('access_token');
-
-  // check whether access token was found
-  const tokenCheck = accessToken && (await checkToken(accessToken));
-
-  // if no token was found, check for authorization code
-  if (!accessToken || tokenCheck.error) {
-    await localStorage.removeItem('access_token');
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = await searchParams.get('code');
-
-    // if no authorization code was found, user is redirected to Google Authorization screen to sign in and receive code
-    if (!code) {
-      const results = await axios.get('https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url');
-      const { authUrl } = results.data;
-      return (window.location.href = authUrl);
-    }
-    return code && getToken(code);
-  }
-  return accessToken;
-};
-
-// check token's validity
-export const checkToken = async (accessToken) => {
-  const result = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`)
-    .then((res) => res.json())
-    .catch((err) => err.json());
-
-  return result;
-};
-
 // fetch new token
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
@@ -50,6 +17,15 @@ const getToken = async (code) => {
   access_token && localStorage.setItem('access_token', access_token);
 
   return access_token;
+};
+
+// check token's validity
+export const checkToken = async (accessToken) => {
+  const result = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`)
+    .then((res) => res.json())
+    .catch((err) => err.json());
+
+  return result;
 };
 
 // get events from API or mockData (for localhost)
@@ -106,4 +82,28 @@ export const extractLocations = (events) => {
   var extractLocations = events.map((event) => event.location);
   var locations = [...new Set(extractLocations)];
   return locations;
+};
+
+export const getAccessToken = async () => {
+  // first check whether user already has access token or not by looking in local storage
+  const accessToken = localStorage.getItem('access_token');
+
+  // check whether access token was found
+  const tokenCheck = accessToken && (await checkToken(accessToken));
+
+  // if no token was found, check for authorization code
+  if (!accessToken || tokenCheck.error) {
+    await localStorage.removeItem('access_token');
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = await searchParams.get('code');
+
+    // if no authorization code was found, user is redirected to Google Authorization screen to sign in and receive code
+    if (!code) {
+      const results = await axios.get('https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url');
+      const { authUrl } = results.data;
+      return (window.location.href = authUrl);
+    }
+    return code && getToken(code);
+  }
+  return accessToken;
 };

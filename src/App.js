@@ -25,40 +25,60 @@ class App extends Component {
     // only update state if this.mounted is true to prevent that component unmounts before API call finished
     this.mounted = true;
 
-    const accessToken = localStorage.getItem('access_token');
-    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get('code');
+    if (navigator.onLine) {
+      const accessToken = localStorage.getItem('access_token');
+      const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+      const searchParams = new URLSearchParams(window.location.search);
+      const code = searchParams.get('code');
 
-    this.setState({
-      showWelcomeScreen: !(code || isTokenValid)
-    });
+      this.setState({
+        showWelcomeScreen: !(code || isTokenValid)
+      });
+      console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' BEFORE IF (CODE OR ISTOKENVALID)');
 
-    getEvents().then((events) => {
-      if (this.mounted) {
-        this.setState({
-          events,
-          locations: extractLocations(events)
+      if ((code || isTokenValid) && this.mounted) {
+        console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' INSIDE IF CHECK');
+        getEvents().then((events) => {
+          console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' AND getEvents reached');
+          if (this.mounted) {
+            this.setState({
+              events,
+              locations: extractLocations(events)
+            });
+          }
         });
       }
-    });
-
-    if (!navigator.onLine) {
+    } else {
+      console.log('this mounted: ', this.mounted, ' WHEN OFFLINE');
+      getEvents().then((events) => {
+        console.log('getEvents reached while offline');
+        if (this.mounted) {
+          this.setState({
+            events,
+            locations: extractLocations(events)
+          });
+        }
+      });
       this.setState({
         infoText: 'You are offline. New events can not be loaded.'
       });
-    } else {
-      this.setState({
-        infoText: ''
-      });
     }
+    // if (!navigator.onLine) {
+    //   this.setState({
+    //     infoText: 'You are offline. New events can not be loaded.'
+    //   });
+    // } else {
+    //   this.setState({
+    //     infoText: ''
+    //   });
+    // }
   }
 
   componentWillUnmount() {
     this.mounted = false;
   }
 
-  updateEvents = (location) => {
+  updateEvents = async (location) => {
     getEvents().then((events) => {
       const locationEvents = (location === 'all')
         ? events
@@ -69,7 +89,7 @@ class App extends Component {
     });
   }
 
-  updateNumberOfEvents = (length) => {
+  updateNumberOfEvents = async (length) => {
     this.setState({
       numberOfEvents: length
     });
