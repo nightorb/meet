@@ -1,13 +1,34 @@
-/* eslint-disable no-useless-concat */
 import axios from "axios";
 import NProgress from "nprogress";
 import { mockData } from "./mock-data";
 
+// takes an events array, then uses mao to create new array with only locations
+// also removes duplicates by creating another new array using spread operator and spreading a set
+// set removes all duplicates from array
+export const extractLocations = (events) => {
+  var extractLocations = events.map((event) => event.location);
+  var locations = [...new Set(extractLocations)];
+  return locations;
+};
+
+// check token's validity
+export const checkToken = async (accessToken) => {
+  // send token to google API server
+  const result = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`)
+    // if token is valid, get a json response
+    .then((res) => res.json())
+    // if token is invalid, get error object
+    .catch((err) => err.json());
+
+  return result;
+};
+
 // fetch new token
 const getToken = async (code) => {
+  // takes access code and sends it to google API to exchange for an access token
   const encodeCode = encodeURIComponent(code);
   const { access_token } = await fetch(
-    'https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
+    `https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodeCode}`
   )
     .then((res) => {
       return res.json();
@@ -17,15 +38,6 @@ const getToken = async (code) => {
   access_token && localStorage.setItem('access_token', access_token);
 
   return access_token;
-};
-
-// check token's validity
-export const checkToken = async (accessToken) => {
-  const result = await fetch(`https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`)
-    .then((res) => res.json())
-    .catch((err) => err.json());
-
-  return result;
 };
 
 // get events from API or mockData (for localhost)
@@ -48,7 +60,7 @@ export const getEvents = async () => {
   if (token) {
     // removes code from URL once it's no longer needed
     removeQuery();
-    const url = 'https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' + '/' + token;
+    const url = `https://1qdkvgn2ia.execute-api.eu-central-1.amazonaws.com/dev/api/get-events/${token}`;
     const result = await axios.get(url);
 
     if (result.data) {
@@ -73,15 +85,6 @@ const removeQuery = () => {
     newUrl = window.location.protocol + '//' + window.location.host;
     window.history.pushState('', '', newUrl);
   }
-};
-
-// takes an events array, then uses mao to create new array with only locations
-// also removes duplicates by creating another new array using spread operator and spreading a set
-// set removes all duplicates from array
-export const extractLocations = (events) => {
-  var extractLocations = events.map((event) => event.location);
-  var locations = [...new Set(extractLocations)];
-  return locations;
 };
 
 export const getAccessToken = async () => {
