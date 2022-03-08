@@ -17,6 +17,7 @@ class App extends Component {
     locations: [],
     numberOfEvents: 32,
     showWelcomeScreen: undefined,
+    infoText: ''
   }
 
   async componentDidMount() {
@@ -42,7 +43,8 @@ class App extends Component {
           if (this.mounted) {
             this.setState({
               events,
-              locations: extractLocations(events)
+              locations: extractLocations(events),
+              infoText: ''
             });
           }
         });
@@ -54,7 +56,8 @@ class App extends Component {
         if (this.mounted) {
           this.setState({
             events,
-            locations: extractLocations(events)
+            locations: extractLocations(events),
+            infoText: 'You are offline. New events can not be loaded.'
           });
         }
       });
@@ -89,12 +92,9 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Welcome to Meet!</h1>
-        { 
-          !navigator.onLine &&
-          <div id="offline-alert-wrapper" style={infoText ? {} : { display: 'none' }}>
-            <InfoAlert text={"You are offline. New events can not be loaded."} />
-          </div>
-        }
+        <div id="offline-alert-wrapper" style={infoText ? {} : { display: 'none' }}>
+          <InfoAlert text={infoText} />
+        </div>
         <div className="search-wrapper">
           <h2>Search for developer events in your city.</h2>
           <NumberOfEvents numberOfEvents={numberOfEvents} updateNumberOfEvents={this.updateNumberOfEvents} />
