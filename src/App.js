@@ -36,12 +36,9 @@ class App extends Component {
       this.setState({
         showWelcomeScreen: !(code || isTokenValid)
       });
-      console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' BEFORE IF (CODE OR ISTOKENVALID)');
 
       if ((code || isTokenValid) && this.mounted) {
-        console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' INSIDE IF CHECK');
         getEvents().then((events) => {
-          console.log('this mounted: ', this.mounted, 'isTokenValid: ', isTokenValid, ' AND getEvents reached');
           if (this.mounted) {
             this.setState({
               events,
@@ -52,9 +49,7 @@ class App extends Component {
         });
       }
     } else {
-      console.log('this mounted: ', this.mounted, ' WHEN OFFLINE');
       getEvents().then((events) => {
-        console.log('getEvents reached while offline');
         if (this.mounted) {
           this.setState({
             events,

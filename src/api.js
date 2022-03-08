@@ -42,7 +42,6 @@ const getToken = async (code) => {
 
 // get events from API or mockData (for localhost)
 export const getEvents = async () => {
-  console.log('getEvents inside api.js reached');
   // progress bar
   NProgress.start();
 
