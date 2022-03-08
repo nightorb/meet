@@ -18,7 +18,7 @@ export const checkToken = async (accessToken) => {
     // if token is valid, get a json response
     .then((res) => res.json())
     // if token is invalid, get error object
-    .catch((err) => err.json());
+    .catch((error) => error.json());
 
   return result;
 };
@@ -42,6 +42,7 @@ const getToken = async (code) => {
 
 // get events from API or mockData (for localhost)
 export const getEvents = async () => {
+  console.log('getEvents inside api.js reached');
   // progress bar
   NProgress.start();
 

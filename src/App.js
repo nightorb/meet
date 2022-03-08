@@ -24,7 +24,7 @@ class App extends Component {
     // only update state if this.mounted is true to prevent that component unmounts before API call finished
     this.mounted = true;
 
-    if (navigator.onLine) {
+    if (navigator.onLine && !window.location.href.startsWith('http://localhost')) {
       const accessToken = localStorage.getItem('access_token');
       const isTokenValid = (await checkToken(accessToken)).error ? false : true;
       const searchParams = new URLSearchParams(window.location.search);
@@ -85,7 +85,6 @@ class App extends Component {
 
   render() {
     const { numberOfEvents, locations, events, infoText, showWelcomeScreen } = this.state;
-    if (showWelcomeScreen === undefined) return <div className="App" />
 
     return (
       <div className="App">
@@ -102,7 +101,10 @@ class App extends Component {
           <CitySearch locations={locations} updateEvents={this.updateEvents} />
         </div>
         <EventList events={events.slice(0, numberOfEvents)} />
-        <WelcomeScreen showWelcomeScreen={showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
+        {
+          navigator.onLine && 
+          <WelcomeScreen showWelcomeScreen={showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />
+        }
       </div>
     );
   }
