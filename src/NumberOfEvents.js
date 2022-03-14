@@ -32,7 +32,7 @@ class NumberOfEvents extends Component {
         <div id="error-alert-wrapper" style={errorText ? {} : { display: 'none' }}>
           <ErrorAlert text={errorText} />
         </div>
-        <label className="input-label">show me</label>
+        <label className="input-label">Show me</label>
         <input
           type="number"
           className="number-of-events"
