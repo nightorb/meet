@@ -12,12 +12,6 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-.App {
-  height: 100vh;
-}
-
 body {
   margin: 0;
   color: var(--clr-neutral-drk);
@@ -231,9 +225,6 @@ a:focus {
   .data-vis {
     margin: 3rem 0.35rem;
   }
-  #pie-container {
-    margin-right: 10vw;
-  }
   #scatter-container {
     margin-left: -10vw;
   }
@@ -258,9 +249,6 @@ a:focus {
     max-width: 50%;
     min-width: auto;
   }
-  #pie-container {
-    padding-left: 2vw;
-  }
   #scatter-container {
     padding-right: 2vw;
   }
@@ -269,11 +257,5 @@ a:focus {
 @media only screen and (min-width: 1500px) {
   .data-vis {
     margin: 3rem 15vw;
-  }
-  #pie-container {
-   padding-left: 5vw; 
-  }
-  #scatter-container {
-    padding-right: 5vw;
   }
 }
