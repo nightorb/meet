@@ -115,7 +115,7 @@ class App extends Component {
         <div className="data-vis">
           <h3>Events in each city</h3>
           <div className="data-vis-wrapper">
-            <EventGenre events={events} />
+            <EventGenre events={events.slice(0, numberOfEvents)} />
             <ResponsiveContainer height={400}>
               <ScatterChart id="scatter-container"
                 margin={{
@@ -126,7 +126,7 @@ class App extends Component {
                   <XAxis type="category" dataKey="city" name="City" />
                   <YAxis type="number" dataKey="number" name="Number of events" allowDecimals={false} />
                   <Tooltip cursor={{ strokeDasharray: '3 3' }} label={""} />
-                  <Scatter data={this.getData()} fill="#f0a384" />
+                  <Scatter data={this.getData().slice(0, numberOfEvents)} fill="#f0a384" />
               </ScatterChart>
             </ResponsiveContainer>
           </div>
