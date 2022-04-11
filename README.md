@@ -1,6 +1,18 @@
 # Meet
 
-"Meet" is a serverless, progressive web application (PWA) with React using a test-driven development (TDD) technique. The application uses the Google Calendar API to fetch upcoming events.  
+"Meet" is a serverless, progressive web application (PWA) with React using a test-driven development (TDD) technique. The application uses the Google Calendar API to fetch upcoming events.
+
+## Live Demo
+To check out the live demo of this project, click [here](https://nightorb.github.io/meet/).
+
+## Built with
+- HTML, CSS, JavaScript
+- React
+- AWS Lambda
+- Serverless
+- Google Calendar API
+- OAuth2
+- Recharts data visualization
 
 ## App Features
 
