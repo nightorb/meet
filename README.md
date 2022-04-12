@@ -4,6 +4,20 @@
 
 ## Live Demo
 To check out the live demo of this project, click [here](https://nightorb.github.io/meet/).
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/89855337/162851083-095132e5-5ac7-4a81-a6fb-671cdb18d59c.png"
+       alt="screenshot of meet app welcome page"
+       width=45%>
+  <img src="https://user-images.githubusercontent.com/89855337/162851099-6739f6c6-2626-484c-8aef-8e0979568078.png"
+       alt="screenshot of data visualization"
+       width=45%>
+  <img src="https://user-images.githubusercontent.com/89855337/162851151-85b4e800-3069-4199-be08-4f258910bc66.png"
+       alt="screenshot of city search input"
+       width=45%>
+  <img src="https://user-images.githubusercontent.com/89855337/162851160-f44d85cb-e0b7-46a1-b18b-00a7a340c342.png"
+       alt="screenshot of event details"
+       width=45%>
+</div>
 
 ## Built with
 - HTML, CSS, JavaScript
